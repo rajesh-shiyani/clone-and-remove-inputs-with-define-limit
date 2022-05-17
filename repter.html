@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clone or Remove custom input box</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" integrity="sha512-cyIcYOviYhF0bHIhzXWJQ/7xnaBuIIOecYoPZBgJHQKFPo+TOBA+BY1EnTpmM8yKDU4ZdI3UGccNGCEUdfbBqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js" integrity="sha512-IZ95TbsPTDl3eT5GwqTJH/14xZ2feLEGJRbII6bRKtE/HC6x3N4cHye7yyikadgAsuiddCY2+6gMntpVHL1gHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+    <div class="container" style="margin-top: 40px">
+        <div class="repeater col-12">
+
+            <div class="form-group row repeaterDiv">
+                <label class="col-lg-3 col-form-label text-left">Phone No.:</label>
+                <div class="col-lg-7">
+                    <input name="add_fileds[]" type="text" class="form-control add_fileds" value="44" maxlength="16">
+                </div>
+            </div>   
+
+            <div class="form-group row repeaterDiv">
+                <label class="col-lg-3 col-form-label text-left">Phone No:</label>
+                <div class="col-lg-7">
+                    <input name="add_fileds[]" type="text" class="form-control add_fileds" value="77" maxlength="16">
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn font-weight-bold btn-danger btn-icon deleteRepeaterDiv" title="Remove">
+                    <i class="la la-remove"></i>
+                    </button>
+                </div>
+            </div>   
+
+                   
+            <div class="form-group row">
+                <button data-max="25" data-class="add_fileds" class="btn font-weight-bold btn-primary addRepeaterDiv" type="button" title="Add New Record">
+                    <i class="la la-plus"></i> ADD NEW
+                </button>
+            </div>
+        </div>     
+    </div>
+   
+   <script type="text/javascript">
+    $(document).on("click",".addRepeaterDiv",function(){
+        var maxAdd   = parseInt($(this).attr('data-max'));
+        var maxClass = $(this).attr('data-class');
+        if($("."+maxClass).length < maxAdd)
+        {
+            addHtml = "<div class='form-group row repeaterDiv' style='display:none'>";
+            addHtml += $(this).parent().parent().find(".repeaterDiv").html();
+            addHtml +=`<div class="col-lg-2">
+                        <button type="button" class="btn font-weight-bold btn-danger btn-icon deleteRepeaterDiv" type="button" title="Remove">
+                             <i class="la la-remove"></i>
+                        </button>
+                       </div>`;
+            addHtml +="</div>";
+            $(this).parent().before(addHtml);
+            $(this).parent().parent().find(".repeaterDiv input[type=text]").last().val('');
+            $( ".repeaterDiv" ).slideDown();
+
+        }else
+        {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You can add Maximum '+maxAdd,                
+            })
+        }
+        
+
+    })
+     $(document).on("click",".deleteRepeaterDiv",function(){
+         var button = $(this);
+        Swal.fire({
+            title: "Are you sure?",
+             text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!"
+         }).then(function(result) {
+             if (result.value) 
+             {
+                button.parent().parent().remove(); 
+             }
+         });
+    })  
+</script>
+</body>
+</html>
+
+
+
